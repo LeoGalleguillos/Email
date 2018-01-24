@@ -26,6 +26,7 @@ class Module
                 EmailService\Email::class => function ($serviceManager) {
                     $config = $serviceManager->get('Config');
                     return new EmailService\Email(
+                        $config['email']['host'],
                         $config['email']['username'],
                         $config['email']['password']
                     );

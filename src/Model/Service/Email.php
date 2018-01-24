@@ -6,14 +6,19 @@ use PHPMailer\PHPMailer\PHPMailer;
 class Email
 {
     public function __construct(
+        $host,
         $username,
         $password
     ) {
+        $this->host      = $host;
         $this->username  = $username;
         $this->password  = $password;
         $this->phpMailer = $this->getPhpMailer();
     }
 
+    /**
+     * @return bool
+     */
     public function send(
         $fromAddress,
         $fromName,
@@ -21,11 +26,19 @@ class Email
         $toName,
         $subject,
         $bodyHtml = null,
-        $bodyText
+        $bodyText,
+        $bccEmail = null,
+        $bccName = null
     ) {
         $this->phpMailer->setFrom($fromAddress, $fromName);
         $this->phpMailer->AddAddress($toAddress, $toName);
-        // $this->phpMailer->AddBCC('leo.galleguillos@icloud.com', 'Leo Galleguillos');
+
+        if ($bccEmail && $bccName) {
+            $this->phpMailer->AddBCC(
+                $bccEmail,
+                $bccName
+            );
+        }
         $this->phpMailer->Subject = $subject;
 
         if ($bodyHtml) {
@@ -37,22 +50,23 @@ class Email
             $this->phpMailer->Body = $bodyText;
         }
 
-        $this->phpMailer->send();
+        return $this->phpMailer->send();
     }
 
     private function getPhpMailer()
     {
         $phpMailer = new PHPMailer();
+
+        $phpMailer->Host       = $this->host;
+        $phpMailer->Username   = $this->username;
+        $phpMailer->Password   = $this->password;
         $phpMailer->IsSMTP();
         $phpMailer->CharSet = 'UTF-8';
+        $phpMailer->SMTPDebug  = 0;
+        $phpMailer->SMTPSecure = 'ssl';
+        $phpMailer->SMTPAuth   = true;
+        $phpMailer->Port       = 465;
 
-        $phpMailer->Host       = 'smtp.gmail.com'; // SMTP server example
-        $phpMailer->SMTPDebug  = 0;                     // enables SMTP debug information (for testing)
-        $phpMailer->SMTPSecure = 'tls';
-        $phpMailer->SMTPAuth   = true;                  // enable SMTP authentication
-        $phpMailer->Port       = 587;                    // set the SMTP port for the GMAIL server
-        $phpMailer->Username   = $this->username; // SMTP account username example
-        $phpMailer->Password   = $this->password;        // SMTP account password example
         return $phpMailer;
     }
 }

@@ -11,11 +11,12 @@ class EmailTest extends TestCase
 {
     protected function setUp()
     {
-        $configArray = require(__DIR__ . '/../../../config/autoload/local.php');
+        $this->config = require(__DIR__ . '/../../../config/autoload/local.php');
 
         $this->emailService = new EmailService\Email(
-            $configArray['email']['username'],
-            $configArray['email']['password']
+            $this->config['email']['host'],
+            $this->config['email']['username'],
+            $this->config['email']['password']
         );
     }
 
@@ -25,5 +26,22 @@ class EmailTest extends TestCase
             EmailService\Email::class,
             $this->emailService
         );
+    }
+
+    public function testSend()
+    {
+        $response = $this->emailService->send(
+            $this->config['email']['test']['from_email'],
+            $this->config['email']['test']['from_name'],
+            $this->config['email']['test']['to_email'],
+            $this->config['email']['test']['to_name'],
+            'this is the subject',
+            null,
+            'this is the message',
+            $this->config['email']['test']['bcc_email'],
+            $this->config['email']['test']['bcc_name']
+        );
+
+        $this->assertTrue($response);
     }
 }
