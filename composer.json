@@ -6,7 +6,7 @@
         }
     },
     "license": "MIT",
-    "name": "leo-galleguillos/word",
+    "name": "leo-galleguillos/email",
     "require": {
         "zendframework/zend-test": "^3.1",
         "phpmailer/phpmailer": "^6.0"
