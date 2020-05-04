@@ -22,6 +22,8 @@ class EmailTest extends TestCase
 
     public function testSend()
     {
+        $this->markTestSkipped('Skip test unless you want to send an email.');
+
         $response = $this->emailService->send(
             $this->config['email']['test']['from_email'],
             $this->config['email']['test']['from_name'],
