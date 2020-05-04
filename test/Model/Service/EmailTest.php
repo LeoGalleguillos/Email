@@ -20,14 +20,6 @@ class EmailTest extends TestCase
         );
     }
 
-    public function testInitialize()
-    {
-        $this->assertInstanceOf(
-            EmailService\Email::class,
-            $this->emailService
-        );
-    }
-
     public function testSend()
     {
         $response = $this->emailService->send(

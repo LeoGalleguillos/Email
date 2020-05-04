@@ -13,7 +13,6 @@ class Email
         $this->host      = $host;
         $this->username  = $username;
         $this->password  = $password;
-        $this->phpMailer = $this->getPhpMailer();
     }
 
     /**
@@ -30,6 +29,7 @@ class Email
         $bccEmail = null,
         $bccName = null
     ) {
+        return mail($toAddress, 'subject', 'message');
         $this->phpMailer->setFrom($fromAddress, $fromName);
         $this->phpMailer->AddAddress($toAddress, $toName);
 
