@@ -9,7 +9,7 @@ use PHPUnit\Framework\TestCase;
 
 class EmailTest extends TestCase
 {
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->config = require(__DIR__ . '/../../../config/autoload/local.php');
 
